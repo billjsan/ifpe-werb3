@@ -5,10 +5,14 @@
  */
 package com.ifpe.edu.br.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -23,6 +27,12 @@ public class Tutor {
     private String senha;
     private String email;
     private boolean mamae;
+    
+    @OneToOne
+    private Foto foto;
+    
+    @ManyToMany()
+    private List<Pet> pets = new ArrayList<>();
 
     public int getCodigo() {
         return codigo;
@@ -63,5 +73,20 @@ public class Tutor {
     public void setMamae(boolean mamae) {
         this.mamae = mamae;
     }
- 
+
+    public Foto getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Foto foto) {
+        this.foto = foto;
+    }
+
+    public List<Pet> getPets() {
+        return pets;
+    }
+
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
+    }
 }

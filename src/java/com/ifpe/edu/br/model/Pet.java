@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -22,6 +23,9 @@ public class Pet {
     private String nome;
     private String mesAnoNascimento;
     private String porte;
+    
+    @OneToOne
+    private Foto foto;
 
     public int getCodigo() {
         return codigo;
@@ -53,6 +57,14 @@ public class Pet {
 
     public void setPorte(String porte) {
         this.porte = porte;
+    }
+
+    public Foto getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Foto foto) {
+        this.foto = foto;
     }
    
 }

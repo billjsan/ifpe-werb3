@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+        <title>TikDoguinho Registro</title>
+</h:head>
+    
+    <h:body>
+        <p:growl id="gro" life="4000" sticky="false"/>
+        <h:form id="formCadUsuario">
+            <p:fieldset legend="Cadastro de Usuário">
+                
+                <h:panelGrid columns="1">
+                    <h:outputText value="login*:"/>
+                    <h:inputText id="txtLogin" value="#{tutorController.usuarioCadastro.usuario}"
+                                 required="true" requiredMessage="O Campo login é obrigatório"/>
+                    <p:message for="txtLogin" />
+                    
+                </h:panelGrid>
+                
+                <p:commandButton value="cadastrar" oncomplete="PF('widDialCadUsuario').show()"/> 
+                <h:commandButton value="cancelar"/>
+                
+            </p:fieldset>
+            <p:dialog id="dialCadUsuario"  
+                      modal="true" visible="false" showEffect="fade" hideEffect="fade"
+                      widgetVar="widDialCadUsuario">
+                
+                <h:outputText value="Deseja realmente cadastrar o usuario?"/><br/>
+                
+                           
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>
+ 
