@@ -10,19 +10,33 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-        <title>TikDoguinho Registro</title>
+    <title>Registrar Tutor</title>
 </h:head>
-    
-    <h:body>
-        <p:growl id="gro" life="4000" sticky="false"/>
-        <h:form id="formCadUsuario">
-            <p:fieldset legend="Cadastro de Usuário">
-                
-                <h:panelGrid columns="1">
+
+<h:body>
+    <p:growl id="gro" life="4000" sticky="false"/>
+    <h:form id="formCadUsuario">
+        <p:fieldset legend="Cadastro de Usuário">
+                <h:panelGrid columns="3">
                     <h:outputText value="login*:"/>
                     <h:inputText id="txtLogin" value="#{tutorController.usuarioCadastro.usuario}"
                                  required="true" requiredMessage="O Campo login é obrigatório"/>
                     <p:message for="txtLogin" />
+                    
+                    <h:outputText value="email*:"/>
+                    <p:inputText value="#{tutorController.usuarioCadastro.email}"
+                                 id="txtEmail" required="true" requiredMessage="O campo email é obrigatório"/>
+                     <p:message for="txtEmail"/>
+ 
+                    <h:outputText value="senha*:"/>
+                    <p:password value="#{tutorController.usuarioCadastro.senha}"
+                                id="pswSenha" required="true" requiredMessage="O campo senha é obrigatório"/>
+                     <p:message for="pswSenha"/>
+                     
+                    <h:outputText value="Confirma Senha*:"
+                                  />
+                    <p:password id="pswConfirma" value="#{cSenha}" required="true" requiredMessage="O campo confirma senha é obrigatório"/>
+                    <p:message for="pswConfirma"/>
                     
                 </h:panelGrid>
                 
@@ -30,15 +44,22 @@ and open the template in the editor.
                 <h:commandButton value="cancelar"/>
                 
             </p:fieldset>
+        
             <p:dialog id="dialCadUsuario"  
                       modal="true" visible="false" showEffect="fade" hideEffect="fade"
                       widgetVar="widDialCadUsuario">
                 
                 <h:outputText value="Deseja realmente cadastrar o usuario?"/><br/>
+                <p:commandButton value="sim" action="#{tutorController.inserir(cSenha)}"
+                                 oncomplete="PF('widDialCadUsuario').hide();"
+                                 update=":gro :formCadUsuario :msgs" />
+                <p:commandButton value="não" oncomplete="PF('widDialCadUsuario').hide()"/>
                 
-                           
             </p:dialog>
-        </h:form>
-    </h:body>
+    </h:form>
+    
+    <p:messages id="msgs"/>
+    
+</h:body>
 </html>
  

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>TikDog(inho)</title>
+    </h:head>
+    <h:body>
+        
+        <p:growl id="gro" life="4000" showSummary="true" 
+                 showDetail="true" sticky="false"/>
+        <h:form id="formUsuarios">
+            <p:dataTable id="tblUsuarios" 
+                         value="#{tutorController.readUsuarios()}"
+                         var="usuario" paginator="true" rows="5"
+                         selection="#{tutorController.selection}" 
+                         selectionMode="single"
+                         rowKey="#{tutor.codigo}">
+                
+                <p:column headerText="Código">
+                    #{tutor.codigo}
+                </p:column>
+                <p:column filterBy="#{tutor.login}">
+                    <f:facet name="header">Login</f:facet>
+                    <f:facet name="footer">footer</f:facet>
+                    #{tutor.usuario}
+                </p:column>
+                <p:column headerText="e-mail">
+                    #{tutor.email}
+                </p:column>
+            </p:dataTable>
+            
+            <p:commandButton value="detalhar" 
+                             oncomplete="PF('widDialUsuario').show()"
+                             update=":dialUsuario"/>
+            <p:commandButton value="atualizar" action="atualizaUsuario" ajax="false"/>
+            <p:commandButton value="deletar" action="#{tutorController.deletar()}"
+                             update=":gro @form">
+                <p:confirm message="Deseja realmente deletar este estimado usuario que faz parte da sua base de dados peciosos na sua vida?"/>
+            </p:commandButton>
+            
+            <p:confirmDialog global="true" >
+                <p:commandButton value="sim" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="no" styleClass="ui-confirmdialog-no"/>
+            </p:confirmDialog>
+            
+        </h:form>
+        
+        <p:dialog id="dialUsuario" visible="false" modal="true"
+                  widgetVar="widDialUsuario">
+            <p:panelGrid columns="2">
+                <h:outputText value="Código:"/>
+                <h:outputText value="#{tutorController.selection.codigo}"/>
+                
+                <h:outputText value="Login:"/>
+                <h:outputText value="#{tutorController.selection.usuario}"/>
+                    
+                <h:outputText value="e-mail:"/>
+                <h:outputText value="#{tutorController.selection.email}"/>
+
+            </p:panelGrid>
+        </p:dialog>
+    </h:body>
+</html>

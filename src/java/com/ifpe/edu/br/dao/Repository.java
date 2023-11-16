@@ -5,6 +5,7 @@
  */
 package com.ifpe.edu.br.dao;
 
+import com.ifpe.edu.br.model.Tutor;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -63,5 +64,13 @@ public class Repository {
         em.remove(oDelete);
         em.getTransaction().commit();
         em.close();
+    }
+    
+    public static void main(String args[]){
+        Tutor u = new Tutor();
+        u.setEmail("joaopaulorockfeler@gmail.com");
+        u.setUsuario("rockfeler123");
+        u.setSenha("1234");
+        getInstance().insert(u);
     }
 }

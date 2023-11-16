@@ -22,16 +22,16 @@ public class LoginController {
     private Tutor usuarioLogado;
     
     public String realizarLogin(String login, String senha) {
+        System.out.println("login:" + login + " senha:" + senha);
         try {
             Tutor uLogin = (Tutor) Repository.getInstance()
                     .read("select u from Tutor u"
-                            + " where u.login = '" + login
+                            + " where u.usuario = '" + login
                             + "' and u.senha = '" + senha+"'", Tutor.class)
                     .get(0);
             this.usuarioLogado = uLogin;
-            return "indexUsuario"; // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ TODO MUDAR ESSE RETURN
-        } catch (Exception e) { 
-            e.printStackTrace();
+            return "indexTutor";
+        } catch (Exception e) {
             FacesContext.getCurrentInstance()
                     .addMessage(null, 
                             new FacesMessage(FacesMessage.SEVERITY_ERROR,

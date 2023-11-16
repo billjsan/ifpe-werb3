@@ -19,10 +19,9 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/index.xhtml</welcome-file>
+        <welcome-file>faces/tg_login.xhtml</welcome-file>
     </welcome-file-list>
-    XHTML
-<context-param>
+    <context-param>
 <param-name>primefaces.skin</param-name>
 <param-value>none</param-value>
 </context-param>

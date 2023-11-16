@@ -51,7 +51,7 @@ public class TutorController {
         List<Tutor> usuarios = null;
         
         usuarios = Repository.getInstance()
-                .read("select u from Usuario u", Tutor.class);
+                .read("select u from Tutor u", Tutor.class);
         
         return usuarios;
         

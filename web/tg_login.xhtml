@@ -12,15 +12,63 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>TikDog(inho)</title>
     </h:head>
-    <b:growl id="gro" show-summary="true" show-detail="true" delay="4000"/>
     <h:body>
-        <b:jumbotron>
-            <h3>Doguinho Saver System...</h3>
-            <h4>oueis seivin laifes</h4>
-        </b:jumbotron>
-    </h:body>
-    
 
+        <c:if test="#{loginController.usuarioLogado ne null}">
+            <script>
+                location.href='indexTutor.xhtml'
+            </script>
+        </c:if>
+        
+        <b:growl id="gro" show-summary="true" show-detail="true" delay="4000"/>
+        
+        <b:jumbotron>
+            <h3>TikDog(inho)</h3>
+        </b:jumbotron>
+        <p:dialog id="dialLogin" draggable="false" closable="false" 
+                  closeOnEscape="false" resizable="false" modal="false"
+                  visible="true">
+            <b:form>
+                <b:panelGrid columns="2">
+
+                    <h:outputText value="login:"/>
+                    <b:inputText value="#{usuario}"/>
+
+                    <h:outputText value="senha:"/>
+                    <b:inputSecret value="#{senha}"/>
+
+                </b:panelGrid>
+
+                <b:commandButton value="logar" look="primary" 
+                                 action="#{loginController.realizarLogin(usuario, senha)}"/><br/>
+                <h:outputText value="não é registrado?"/>
+                <b:button look="link" value="registre-se" onclick="$('.mRegistro').modal('show')"/>
+
+            </b:form>
+        </p:dialog>
+
+        <b:form id="formRegistro">
+            <b:modal id="modalRegistro" class="mRegistro">
+                <b:panelGrid columns="2">
+
+                    <h:outputText value="Login:"/>
+                    <b:inputText value="#{tutorController.usuarioCadastro.usuario}"/>
+
+                    <h:outputText value="e-mail:"/>
+                    <b:inputText value="#{tutorController.usuarioCadastro.email}"/>
+
+                    <h:outputText value="Senha:"/>
+                    <b:inputSecret value="#{tutorController.usuarioCadastro.senha}"/>
+
+                    <h:outputText value="Confirma:"/>
+                    <b:inputSecret value="#{confirma}"/>
+                    <b:commandButton value="Cadastrar" 
+                                     action="#{tutorController.inserir(confirma)}" />
+                </b:panelGrid>
+            </b:modal>
+        </b:form>
+
+    </h:body>
 </html>
