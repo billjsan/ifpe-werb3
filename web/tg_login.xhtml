@@ -53,6 +53,9 @@ and open the template in the editor.
             <b:modal id="modalRegistro" class="mRegistro">
                 <b:panelGrid columns="2">
 
+                    <h:outputText value="Nome:"/>
+                    <b:inputText value="#{tutorController.usuarioCadastro.nome}"/>
+                    
                     <h:outputText value="Login:"/>
                     <b:inputText value="#{tutorController.usuarioCadastro.usuario}"/>
 

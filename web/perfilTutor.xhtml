@@ -29,29 +29,49 @@ and open the template in the editor.
                                oncomplete="$('.mAltSenha').modal('show')"/>
             </b:panel>
             <b:panel>
-                <h:outputText value="Perfil de: " style="font-size: 25pt"/>
-                <h:outputText value="#{loginController.usuarioLogado.usuario}" style="font-size: 25pt; font-style: italic"/>
-                <b:panelGrid columns="2" colSpans="2,10">
-                    <h:outputText value="e-mail:"/>
-                    <h:outputText value="#{loginController.usuarioLogado.email}"/>
-
-                </b:panelGrid>
+                <b:panel>
+                    <h:outputText value="Perfil de: " style="font-size: 25pt"/>
+                    <h:outputText value="#{loginController.usuarioLogado.nome}" style="font-size: 25pt; font-style: italic"/>
+                    <ul>
+                        <li>Nome: #{loginController.usuarioLogado.nome}</li>
+                        <li>e-mail: #{loginController.usuarioLogado.email}</li>
+                        <li>Nome de usuário: #{loginController.usuarioLogado.usuario}</li>
+                    </ul>
+                </b:panel>
+                
+                <b:panel>
+                    <h:outputText value="Meus Pets: " style="font-size: 25pt"/>
+                    <ui:repeat value="#{petController.getMeusPets(loginController.usuarioLogado)}" var="pet">
+                        <ul>
+                        <li>Nome do Pet: #{pet.nome}</li>
+                        <li>Nascimento do Pet: #{pet.mesAnoNascimento}</li>
+                        <li>Porte do Pet: #{pet.porte}</li>
+                        </ul>
+                    </ui:repeat>
+                </b:panel>
+                
             </b:panel>
+
         </b:panelGrid>
+            
         </b:form>
         
         <b:form id="formEditUsuario">
             <b:modal id="modalEditUsuario" class="mUsuario">
                 <b:panelGrid columns="2">
+                    <h:outputText value="nome:"/>
+                    <b:inputText value="#{tutorController.selection.nome}"/>
+                    
                     <h:outputText value="email:"/>
-                    <b:inputText value="#{tutorController.selection.email}"
-                                 />                   
+                    <b:inputText value="#{tutorController.selection.email}"/>
+                    
+                    <h:outputText value="nome de usuário:"/>
+                    <b:inputText value="#{tutorController.selection.usuario}"/>
+                    
                 </b:panelGrid>
                 
                 <b:commandButton value="editar" action="#{tutorController.editarPerfil()}"/> 
-                
-                
-            
+    
             </b:modal>
         </b:form>
         

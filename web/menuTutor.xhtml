@@ -24,11 +24,11 @@ and open the template in the editor.
         <b:form id="formMenu">
             <b:navBar brand="Home" brandHref="indexTutor.xhtml" fluid="true">
                 <b:navbarLinks>
-                    <b:navLink value="inserir Ocorrência"/>
+                    <b:navLink value="Adicionar Pet" onclick="location.href='cadastroPet.xhtml'"/>
                 </b:navbarLinks>
 
                 <b:navbarLinks pull="right">
-                    <b:dropMenu value="#{(loginController.usuarioLogado ne null?loginController.usuarioLogado.usuario:'')}">
+                    <b:dropMenu value="#{(loginController.usuarioLogado ne null ? loginController.usuarioLogado.usuario:'')}">
                         <b:navLink value="meu perfil" href="perfilTutor.xhtml"></b:navLink>
                         <b:navLink></b:navLink>
                         <b:navLink value="logout" 

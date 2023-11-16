@@ -7,10 +7,14 @@ package com.ifpe.edu.br.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
@@ -23,6 +27,7 @@ public class Tutor {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int codigo;
+    private String nome;
     private String usuario;
     private String senha;
     private String email;
@@ -31,13 +36,27 @@ public class Tutor {
     @OneToOne
     private Foto foto;
     
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "tutor_pet",
+            joinColumns = @JoinColumn(name = "tutor_id"),
+            inverseJoinColumns = @JoinColumn(name = "pet_id")
+    )
     private List<Pet> pets = new ArrayList<>();
 
     public int getCodigo() {
         return codigo;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
@@ -88,5 +107,9 @@ public class Tutor {
 
     public void setPets(List<Pet> pets) {
         this.pets = pets;
+    }
+    
+    public void addPet(Pet pet) {
+        this.pets.add(pet);
     }
 }

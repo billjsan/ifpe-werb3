@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+<h:head>
+    <title>Registrar Pet</title>
+</h:head>
+
+<h:body>
+    <p:growl id="gro" life="4000" sticky="false"/>
+    <h:form id="formCadPet">
+        <p:fieldset legend="Cadastro de Pet">
+                <h:panelGrid columns="3">
+                    <h:outputText value="Nome*:"/>
+                    <h:inputText id="txtNome" value="#{petController.petCadastro.nome}"
+                                 required="true" requiredMessage="O Campo nome é obrigatório"/>
+                    <p:message for="txtNome" />
+                    
+                    <h:outputText value="Mês e ano do nascimento(mm/aa)*:"/>
+                    <p:inputText value="#{petController.petCadastro.mesAnoNascimento}"
+                                 id="txtNascimento" required="true" requiredMessage="O campo nasimento é obrigatório"/>
+                     <p:message for="txtNascimento"/>
+ 
+                    <h:outputText value="Porte (P/M/G)*:"/>
+                    <p:inputText value="#{petController.petCadastro.porte}"
+                                id="pswPorte" required="true" requiredMessage="O campo Porte é obrigatório"/>
+                     <p:message for="pswPorte"/>
+                     
+                </h:panelGrid>
+                
+                <p:commandButton value="cadastrar" oncomplete="PF('widDialCadPet').show()"/> 
+                <h:commandButton value="cancelar"/>
+                
+            </p:fieldset>
+        
+            <p:dialog id="dialCadPet"  
+                      modal="true" visible="false" showEffect="fade" hideEffect="fade"
+                      widgetVar="widDialCadPet">
+                
+                <h:outputText value="Deseja realmente cadastrar o Pet?"/><br/>
+                <p:commandButton value="sim" action="#{petController.inserirPetPorTutor(loginController.usuarioLogado)}"
+                                 oncomplete="PF('widDialCadPet').hide();"
+                                 update=":gro :formCadPet :msgs" />
+                <p:commandButton value="não" oncomplete="PF('widDialCadPet').hide()"/>
+                
+            </p:dialog>
+    </h:form>
+    
+    <p:messages id="msgs"/>
+    
+</h:body>
+</html>

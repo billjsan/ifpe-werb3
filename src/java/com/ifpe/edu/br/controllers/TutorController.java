@@ -6,6 +6,7 @@
 package com.ifpe.edu.br.controllers;
 
 import com.ifpe.edu.br.dao.Repository;
+import com.ifpe.edu.br.model.Pet;
 import com.ifpe.edu.br.model.Tutor;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -25,11 +26,18 @@ public class TutorController {
     private Tutor usuarioCadastro;
     private Tutor selection;
     private String modalType;
+    private Pet addingPet;
     
     @PostConstruct
     public void init(){
         this.usuarioCadastro = new Tutor();
         this.modalType = "create";
+        this.addingPet = new Pet();
+    }
+    
+    public void inserirPet() {
+        usuarioCadastro.addPet(addingPet);
+        Repository.getInstance().update(usuarioCadastro);
     }
     
     public void inserir(String confirma){
@@ -52,13 +60,15 @@ public class TutorController {
         
         usuarios = Repository.getInstance()
                 .read("select u from Tutor u", Tutor.class);
-        
         return usuarios;
-        
     }
 
     public Tutor getUsuarioCadastro() {
         return usuarioCadastro;
+    }
+    
+    public Pet getAddingPet() {
+        return addingPet;
     }
 
     public void setUsuarioCadastro(Tutor usuarioCadastro) {
@@ -127,9 +137,7 @@ public class TutorController {
         FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("Senha alterada com sucesso!"));
     }
-    
-    //gambiarra para controlar a abertura do modal, porque Ana Paulo
-    //exigiu... porque a graça da gambiarra é ser auto explicativa
+
     public void modalType(String type){
         this.modalType = type;
     }

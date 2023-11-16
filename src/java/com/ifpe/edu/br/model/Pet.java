@@ -5,10 +5,13 @@
  */
 package com.ifpe.edu.br.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 /**
@@ -23,6 +26,8 @@ public class Pet {
     private String nome;
     private String mesAnoNascimento;
     private String porte;
+    @ManyToMany(mappedBy = "pets")
+    private List<Tutor> tutores = new ArrayList<>();
     
     @OneToOne
     private Foto foto;

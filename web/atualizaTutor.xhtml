@@ -17,6 +17,11 @@ and open the template in the editor.
             <p:fieldset legend="Edição de Usuário">
                 
                 <h:panelGrid columns="3">
+                    <h:outputText value="nome*:"/>
+                    <h:inputText id="txtNome" value="#{tutorController.selection.nome}"
+                                 required="true" requiredMessage="O Campo nome é obrigatório"/>
+                    <p:message for="txtNome" />
+                    
                     <h:outputText value="login*:"/>
                     <h:inputText id="txtLogin" value="#{tutorController.selection.usuario}"
                                  required="true" requiredMessage="O Campo login é obrigatório"/>
