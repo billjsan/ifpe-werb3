@@ -10,49 +10,33 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui" >
+      
     <h:head>
         <title>TikDog(inho)</title>
     </h:head>
     <h:body>
-        
-        <ui:include src="menuTutor.xhtml" rendered="true" />
-        
+                <ui:include src="menuPet.xhtml" rendered="true" />
         <b:form>
         <b:panelGrid columns="2" colSpans="2,10">
             <b:panel>
-                <b:commandLink value="editar perfil" ajax='true'
-                               oncomplete="$('.mUsuario').modal('show')">
-                    <f:setPropertyActionListener value="#{loginController.usuarioLogado}"
-                                                 target="#{tutorController.selection}"/>
+                <b:commandLink value="editar perfil do pet" ajax='true'
+                               oncomplete="$('.mEditaPet').modal('show')">
+                    
                 </b:commandLink>
                 <br/>
-                <b:commandLink value="alterar senha" ajax="true" 
-                               oncomplete="$('.mAltSenha').modal('show')"/>
             </b:panel>
             <b:panel>
                 <b:panel>
                     <h:outputText value="Perfil de: " style="font-size: 25pt"/>
-                    <h:outputText value="#{loginController.usuarioLogado.nome}" style="font-size: 25pt; font-style: italic"/>
+                    <h:outputText value="#{petController.selection.nome}" style="font-size: 25pt; font-style: italic"/>
                     <ul>
-                        <li>Nome: #{loginController.usuarioLogado.nome}</li>
-                        <li>e-mail: #{loginController.usuarioLogado.email}</li>
-                        <li>Nome de usuário: #{loginController.usuarioLogado.usuario}</li>
-                    </ul>
-                </b:panel>
-                
-                <b:panel>
-                    <h:outputText value="Meus Pets: " style="font-size: 25pt"/>
-                    <ui:repeat value="#{petController.getMeusPets(loginController.usuarioLogado)}" var="pet">
-                        <ul>
-                        <li>Nome do Pet: #{pet.nome}</li>
-                        <li>Nascimento do Pet: #{pet.mesAnoNascimento}</li>
-                        <li>Porte do Pet: #{pet.porte}</li>
-                        <h:commandButton value="Ir para Perfil do Pet" action="#{petController.irParaPerfilPet(pet)}" />
+                        <li>Nome do Pet: #{petController.selection.nome}</li>
+                        <li>Mês e ano do nascimento: #{petController.selection.mesAnoNascimento}</li>
+                        <li>Porte do Pet: #{petController.selection.porte}</li>
                         </ul>
-                    </ui:repeat>
                 </b:panel>
-                
+
             </b:panel>
 
         </b:panelGrid>
@@ -60,20 +44,20 @@ and open the template in the editor.
         </b:form>
         
         <b:form id="formEditUsuario">
-            <b:modal id="modalEditUsuario" class="mUsuario">
+            <b:modal id="modalEditUsuario" class="mEditaPet">
                 <b:panelGrid columns="2">
                     <h:outputText value="nome:"/>
-                    <b:inputText value="#{tutorController.selection.nome}"/>
+                    <b:inputText value="#{petController.selection.nome}"/>
                     
-                    <h:outputText value="email:"/>
-                    <b:inputText value="#{tutorController.selection.email}"/>
+                    <h:outputText value="Mês e ano de nascimento:"/>
+                    <b:inputText value="#{petController.selection.mesAnoNascimento}"/>
                     
-                    <h:outputText value="nome de usuário:"/>
-                    <b:inputText value="#{tutorController.selection.usuario}"/>
+                    <h:outputText value="Porte:"/>
+                    <b:inputText value="#{petController.selection.porte}"/>
                     
                 </b:panelGrid>
                 
-                <b:commandButton value="editar" action="#{tutorController.editarPerfil()}"/> 
+                <b:commandButton value="editar" action="#{petController.editarPet()}"/> 
     
             </b:modal>
             

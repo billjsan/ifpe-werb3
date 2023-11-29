@@ -9,12 +9,12 @@ package com.ifpe.edu.br.controllers;
 import com.ifpe.edu.br.dao.Repository;
 import com.ifpe.edu.br.model.Pet;
 import com.ifpe.edu.br.model.Tutor;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import java.util.List;
 
 /**
  *
@@ -57,6 +57,11 @@ public class PetController {
         this.modalType = modalType;
     }
     
+    public String irParaPerfilPet(Pet pet) {
+        this.selection = pet;
+        return "irParaPerfilPet";
+    }
+    
   
    public String inserirPetPorTutor(Tutor tutor) {
        try{
@@ -97,4 +102,15 @@ public class PetController {
         }
        return null;
    }
+   
+   public String editarPet() {
+   
+   Repository.getInstance().update(this.selection);
+        FacesContext.getCurrentInstance()
+                .addMessage(null, 
+                        new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        "Sucesso!", "pet alterado com Sucesso"));
+         return "irParaPerfilTutor";
+   }
+  
 }
