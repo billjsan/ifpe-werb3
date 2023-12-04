@@ -26,6 +26,8 @@ public class PetController {
     private Pet petCadastro;
     private Pet selection;
     private String modalType;
+    private Boolean petCompartilhado;
+    private String emailTutor;
     
     @PostConstruct
     public void init(){
@@ -33,6 +35,47 @@ public class PetController {
         this.modalType = "create";
     }
 
+    public String getEmailTutor() {
+        return emailTutor;
+    }
+    
+    public void compartilharPet() {
+         try{
+       Tutor tutorPorEmail = (Tutor) Repository.getInstance()
+                    .read("select u from Tutor u"
+                            + " where u.email = '" + emailTutor +"'", Tutor.class)
+                    .get(0);
+       selection.adicionarTutor(tutorPorEmail);
+       Repository.getInstance().update(this.selection);
+       Repository.getInstance().update(tutorPorEmail);
+       FacesContext.getCurrentInstance()
+                    .addMessage(null, 
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Sucesso", "Pet compartilhado com sucesso"));
+ 
+       }
+       catch (Exception e) {
+            FacesContext.getCurrentInstance()
+                    .addMessage(null, 
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Erro ao compartilhar pet" + e.getMessage(),"Tutor não encontrado" + e.getMessage()));
+        }
+    }
+
+    public void setEmailTutor(String emailTutor) {
+        this.emailTutor = emailTutor;
+    }
+    
+    
+
+    public Boolean getPetCompartilhado() {
+        return petCompartilhado;
+    }
+
+    public void setPetCompartilhado(Boolean petCompartilhado) {
+        this.petCompartilhado = petCompartilhado;
+    }
+    
     public Pet getPetCadastro() {
         return petCadastro;
     }
@@ -62,6 +105,14 @@ public class PetController {
         return "irParaPerfilPet";
     }
     
+//     public void irParaCompartilhamento() {
+//       
+//        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("petCompartilhado", selection);
+//
+//        
+//        NavigationHandler nh = FacesContext.getCurrentInstance().getApplication().getNavigationHandler();
+//        nh.handleNavigation(FacesContext.getCurrentInstance(), null, "compartilharPet?faces-redirect=true");
+//    }
   
    public String inserirPetPorTutor(Tutor tutor) {
        try{
@@ -73,7 +124,12 @@ public class PetController {
        
        usuarioLogado.addPet(petCadastro);
        Repository.getInstance().update(usuarioLogado);
-       return "indexTutor";
+       FacesContext.getCurrentInstance()
+                    .addMessage(null, 
+                            new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Sucesso", "Pet Cadastrado com sucesso"));
+ 
+       return "irParaPerfilTutor";
        }
        catch (Exception e) {
             FacesContext.getCurrentInstance()
@@ -81,7 +137,7 @@ public class PetController {
                             new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Erro ao Logar","Usuário e/ou senha estão incorretos"));
         }
-       return "indexTutor";
+       return "irParaPerfilTutor";
    }
    
    public List<Pet> getMeusPets(Tutor tutor) {

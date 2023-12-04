@@ -112,4 +112,16 @@ public class Tutor {
     public void addPet(Pet pet) {
         this.pets.add(pet);
     }
+    
+    public void adicionarPet(Pet pet) {
+        if (!pets.contains(pet)) {
+            pets.add(pet);
+            pet.adicionarTutor(this);
+        }
+    }
+
+    public void removerPet(Pet pet) {
+        pets.remove(pet);
+        pet.removerTutor(this);
+    }
 }

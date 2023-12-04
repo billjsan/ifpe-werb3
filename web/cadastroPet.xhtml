@@ -36,6 +36,11 @@ and open the template in the editor.
                                 id="pswPorte" required="true" requiredMessage="O campo Porte é obrigatório"/>
                      <p:message for="pswPorte"/>
                      
+                     <h:outputLabel value="Pet Compartilhado" />
+                     <h:selectBooleanCheckbox value="#{petController.petCompartilhado}" 
+                                              id="pswComp" required="false" requiredMessage="O campo Porte é obrigatório" />
+                     <p:message for="pswPorte"/>
+                     
                 </h:panelGrid>
                 
                 <p:commandButton value="cadastrar" oncomplete="PF('widDialCadPet').show()"/> 

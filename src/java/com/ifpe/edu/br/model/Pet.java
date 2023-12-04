@@ -71,5 +71,19 @@ public class Pet {
     public void setFoto(Foto foto) {
         this.foto = foto;
     }
-   
+       public void adicionarTutor(Tutor tutor) {
+        if (!tutores.contains(tutor)) {
+            tutores.add(tutor);
+            tutor.adicionarPet(this);
+        }
+    }
+
+    public void removerTutor(Tutor tutor) {
+        tutores.remove(tutor);
+        tutor.removerPet(this);
+    }
+
+    public List<Tutor> getTutores() {
+        return tutores;
+    }
 }

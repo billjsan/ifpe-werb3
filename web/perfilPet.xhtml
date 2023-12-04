@@ -10,7 +10,7 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui" >
+      xmlns:p="http://primefaces.org/ui">
       
     <h:head>
         <title>TikDog(inho)</title>
@@ -23,8 +23,13 @@ and open the template in the editor.
                 <b:commandLink value="editar perfil do pet" ajax='true'
                                oncomplete="$('.mEditaPet').modal('show')">
                     
+                </b:commandLink><br/>
+                
+                <b:commandLink value="Compartilhar pet" 
+                               ajax="true" oncomplete="$('.mCompartilhaPet').modal('show')">
+                    
                 </b:commandLink>
-                <br/>
+                
             </b:panel>
             <b:panel>
                 <b:panel>
@@ -104,6 +109,20 @@ and open the template in the editor.
                                      action="#{tutorController.alterarSenha(senha, nSenha, confirma)}"/>
                 </b:panelGrid>
                 
+            </b:modal>
+            
+        </b:form>
+        
+        <b:form id="formCompartilhaPet">
+            <b:modal id="modalCompartilhaPet" class="mCompartilhaPet">
+                <b:panelGrid columns="2">
+                    <h:outputText value="Email do tutor:"/>
+                    <b:inputText value="#{petController.emailTutor}"/>
+ 
+                </b:panelGrid>
+                
+                <b:commandButton value="editar" action="#{petController.compartilharPet()}"/> 
+    
             </b:modal>
             
         </b:form>
