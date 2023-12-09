@@ -6,15 +6,21 @@
 package com.ifpe.edu.br.controllers;
 
 import com.ifpe.edu.br.dao.Repository;
+import com.ifpe.edu.br.model.Foto;
 import com.ifpe.edu.br.model.Pet;
 import com.ifpe.edu.br.model.Tutor;
+import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -22,11 +28,14 @@ import javax.servlet.http.HttpSession;
  */
 @ManagedBean
 @SessionScoped
+@ViewScoped
 public class TutorController {
     private Tutor usuarioCadastro;
     private Tutor selection;
     private String modalType;
     private Pet addingPet;
+    private UploadedFile uploadedFile;
+    private String tagImagem;
     
     @PostConstruct
     public void init(){
@@ -34,6 +43,15 @@ public class TutorController {
         this.modalType = "create";
         this.addingPet = new Pet();
     }
+
+    public String getTagImagem() {
+        return tagImagem;
+    }
+
+    public void setTagImagem(String tagImagem) {
+        this.tagImagem = tagImagem;
+    }
+    
     
     public void inserirPet() {
         usuarioCadastro.addPet(addingPet);
@@ -51,7 +69,6 @@ public class TutorController {
         this.usuarioCadastro = new Tutor();
         FacesContext.getCurrentInstance().addMessage(null, 
                 new FacesMessage("Usuario cadastrado com sucesso!"));
-        
     }
     
     public List<Tutor> readUsuarios(){
@@ -69,6 +86,24 @@ public class TutorController {
     
     public Pet getAddingPet() {
         return addingPet;
+    }
+    
+     public void handleFileUpload(FileUploadEvent event) throws IOException  {
+        byte[] im = new byte[(int) event.getFile().getSize()];   
+        event.getFile().getInputstream().read(im);
+        Foto foto = new Foto();
+        foto.setTamanho((int) event.getFile().getSize());
+        foto.setArquivo(im);
+        Random r = new Random();
+        foto.setNomeDoArquivo(String.valueOf(r.nextLong()));
+        this.usuarioCadastro.setFoto(foto);
+         FacesContext.getCurrentInstance()
+                 .addMessage(null, new FacesMessage("Imagem Enviada"));
+         //gambiarra
+         ((HttpSession)FacesContext.getCurrentInstance()
+                 .getExternalContext().getSession(true)).setAttribute("imagem"
+                         , this.usuarioCadastro.getFoto().getArquivo());
+        this.tagImagem = "http://localhost:8080/TicDoguinho/ServletExibirImagemDoguinhoGambiarra";
     }
 
     public void setUsuarioCadastro(Tutor usuarioCadastro) {

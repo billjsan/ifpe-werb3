@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 /**
  *
@@ -19,6 +20,7 @@ public class Foto {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int codigo;
+    @Lob
     private byte[] arquivo;
     private String nomeDoArquivo;
     private int tamanho;

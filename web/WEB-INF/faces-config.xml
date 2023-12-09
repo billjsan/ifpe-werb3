@@ -29,5 +29,14 @@
             <redirect />
         </navigation-case>
     </navigation-rule>
+    
+    <navigation-rule>
+        <from-view-id>tg_login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>irParaTelaDeCadastro</from-outcome>
+            <to-view-id>CadastroTutor.xhtml</to-view-id>
+            <redirect />
+        </navigation-case>
+    </navigation-rule>
 
 </faces-config>

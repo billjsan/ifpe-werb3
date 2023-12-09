@@ -33,7 +33,7 @@ public class Tutor {
     private String email;
     private boolean mamae;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Foto foto;
     
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

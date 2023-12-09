@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      
+    <h:head>
+        <title>Compartilhar Pet</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
+    </h:head>
+    
+    <h:body>
+    <h:form>
+        <h2>Compartilhar Pet</h2>
+
+        <!-- Exibir informações do pet -->
+        <h:outputText value="Nome do Pet: #{compartilharPetBean.petCompartilhado.nome}" />
+
+        <!-- Formulário para inserir informações do novo tutor -->
+        <h:panelGrid columns="2">
+     
+            <h:outputLabel for="emailNovoTutor">Email do Novo Tutor:</h:outputLabel>
+            <h:inputText id="emailNovoTutor" value="#{compartilharPetBean.emailNovoTutor}" />
+        </h:panelGrid>
+
+        <!-- Botão para confirmar o compartilhamento -->
+        <h:commandButton value="Compartilhar" action="#{compartilharPetBean.compartilharPet}" />
+
+    </h:form>
+        
+</h:body>
+
+</html>
