@@ -5,6 +5,7 @@
  */
 package com.ifpe.edu.br.model;
 
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,7 @@ import javax.persistence.Lob;
  * @author wjeff
  */
 @Entity
-public class Foto {
+public class Foto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int codigo;

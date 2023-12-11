@@ -13,13 +13,42 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>TikDog(inho)</title>
+       <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
+
     </h:head>
     <h:body>
         
         <ui:include src="menuTutor.xhtml" rendered="true" />
         
-        <b:form>
-        <b:panelGrid columns="2" colSpans="2,10">
+        <b:form class="formulario">
+        <b:panelGrid columns="3" colSpans="2,8,2">
+            <b:panel id="painelPerfil">
+                        <img src="LoadImage?codFoto=#{loginController.usuarioLogado.foto.codigo}" 
+                               class="rounded-circle"/>
+                        <br/>
+                        <h:outputText value="#{loginController.usuarioLogado.nome}" class="nome-do-perfil"/>  
+                        <ul class="lista-social">
+                            <li><a href="#">E-mail: #{loginController.usuarioLogado.email}</a></li>
+                            <li><a href="#">Username: #{loginController.usuarioLogado.usuario}</a></li>
+                        </ul>
+            </b:panel>
+                          
+                <b:panel>
+                    <h:outputText value="Meus Pets: " style="font-size: 25pt"/>
+                    <ui:repeat value="#{petController.getMeusPets(loginController.usuarioLogado)}" var="pet">
+                        <b:panel>
+                            <ul class="lista-social">
+                                <img src="LoadImage?codFoto=#{pet.foto.codigo}" 
+                               class="rounded-circle-pet-detail"/>
+                                <li><a href="#">Nome Pet: #{pet.nome}</a></li>
+                                <li><a href="#">Nascimento : #{pet.mesAnoNascimento}</a></li>
+                                <li><a href="#">Porte Pet: #{pet.porte}</a></li>
+                                <h:commandButton value="Ir para Perfil do Pet" action="#{petController.irParaPerfilPet(pet)}" />
+                        </ul>
+                        </b:panel>
+                    </ui:repeat>
+                </b:panel>
+
             <b:panel>
                 <b:commandLink value="editar perfil" ajax='true'
                                oncomplete="$('.mUsuario').modal('show')">
@@ -29,30 +58,6 @@ and open the template in the editor.
                 <br/>
                 <b:commandLink value="alterar senha" ajax="true" 
                                oncomplete="$('.mAltSenha').modal('show')"/>
-            </b:panel>
-            <b:panel>
-                <b:panel>
-                    <h:outputText value="Perfil de: " style="font-size: 25pt"/>
-                    <h:outputText value="#{loginController.usuarioLogado.nome}" style="font-size: 25pt; font-style: italic"/>
-                    <ul>
-                        <li>Nome: #{loginController.usuarioLogado.nome}</li>
-                        <li>e-mail: #{loginController.usuarioLogado.email}</li>
-                        <li>Nome de usuário: #{loginController.usuarioLogado.usuario}</li>
-                    </ul>
-                </b:panel>
-                
-                <b:panel>
-                    <h:outputText value="Meus Pets: " style="font-size: 25pt"/>
-                    <ui:repeat value="#{petController.getMeusPets(loginController.usuarioLogado)}" var="pet">
-                        <ul>
-                        <li>Nome do Pet: #{pet.nome}</li>
-                        <li>Nascimento do Pet: #{pet.mesAnoNascimento}</li>
-                        <li>Porte do Pet: #{pet.porte}</li>
-                        <h:commandButton value="Ir para Perfil do Pet" action="#{petController.irParaPerfilPet(pet)}" />
-                        </ul>
-                    </ui:repeat>
-                </b:panel>
-                
             </b:panel>
 
         </b:panelGrid>

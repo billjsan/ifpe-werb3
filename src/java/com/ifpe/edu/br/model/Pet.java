@@ -5,6 +5,7 @@
  */
 package com.ifpe.edu.br.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ import javax.persistence.OneToOne;
  * @author wjeff
  */
 @Entity
-public class Pet {
+public class Pet implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int codigo;

@@ -5,6 +5,7 @@
  */
 package com.ifpe.edu.br.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -23,7 +24,7 @@ import javax.persistence.OneToOne;
  * @author wjeff
  */
 @Entity
-public class Tutor {
+public class Tutor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int codigo;

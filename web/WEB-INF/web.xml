@@ -14,13 +14,13 @@
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>*.jsf</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
-    <servlet-name>Faces Servlet</servlet-name>
-    <url-pattern>/javax.faces.resource/*</url-pattern>
-</servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/javax.faces.resource/*</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -30,11 +30,10 @@
         <welcome-file>faces/tg_login.xhtml</welcome-file>
     </welcome-file-list>
     <context-param>
-<param-name>primefaces.skin</param-name>
-<param-value>none</param-value>
-</context-param>
-
-<context-param>
+        <param-name>primefaces.skin</param-name>
+        <param-value>none</param-value>
+    </context-param>
+    <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>south-street</param-value>
     </context-param>

@@ -7,9 +7,9 @@ package com.ifpe.edu.br.controllers;
 
 import com.ifpe.edu.br.dao.Repository;
 import com.ifpe.edu.br.model.Tutor;
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
@@ -19,8 +19,8 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-@RequestScoped
-public class LoginController {
+
+public class LoginController  implements Serializable  {
     private Tutor usuarioLogado;
     
     public String realizarLogin(String login, String senha) {

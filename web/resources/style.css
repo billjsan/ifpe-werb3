@@ -9,13 +9,12 @@ h2 {
     color: #333;
 }
 
-form {
-    max-width: 400px;
+.formulario {
     margin: 20px auto;
     background: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 2, 0.1);
 }
 
 .panelGrid {
@@ -42,5 +41,51 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+}
+
+.rounded-circle {
+        border-radius: 50%;
+        width:150px;
+        height:150px;
+        overflow: hidden;
+}
+        
+.rounded-circle-pet-detail {
+        border-radius: 50%;
+        width:100px;
+        height:100px;
+        overflow: hidden;
+}
+        
+.nome-do-perfil {
+    font-size: 24px;
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+
+.lista-social {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+.lista-social li {
+    margin-right: 10px;
+}
+
+
+.lista-social li a {
+    text-decoration: none;
+    color: #666;
+    font-size: 16px;
+    transition: color 0.3s ease; 
+}
+
+
+.lista-social li a:hover {
+    color: #007bff;
 }
 

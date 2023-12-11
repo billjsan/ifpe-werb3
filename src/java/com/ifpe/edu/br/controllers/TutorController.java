@@ -10,13 +10,13 @@ import com.ifpe.edu.br.model.Foto;
 import com.ifpe.edu.br.model.Pet;
 import com.ifpe.edu.br.model.Tutor;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.FileUploadEvent;
@@ -28,8 +28,8 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @SessionScoped
-@ViewScoped
-public class TutorController {
+
+public class TutorController  implements Serializable {
     private Tutor usuarioCadastro;
     private Tutor selection;
     private String modalType;

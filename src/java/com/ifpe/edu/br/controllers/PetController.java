@@ -9,6 +9,7 @@ package com.ifpe.edu.br.controllers;
 import com.ifpe.edu.br.dao.Repository;
 import com.ifpe.edu.br.model.Pet;
 import com.ifpe.edu.br.model.Tutor;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -22,7 +23,7 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-public class PetController {
+public class PetController implements Serializable {
     private Pet petCadastro;
     private Pet selection;
     private String modalType;
