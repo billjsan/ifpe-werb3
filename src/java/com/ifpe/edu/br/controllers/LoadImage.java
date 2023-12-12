@@ -31,29 +31,20 @@ public class LoadImage extends HttpServlet {
         int codigo = Integer.parseInt(request.getParameter("codFoto"));
         System.out.println("Código da imagem: " + codigo);
 
-        // Recuperar a foto do banco de dados
         Foto foto = (Foto) Repository.getInstance()
                 .read("SELECT f FROM Foto f WHERE f.codigo = " + codigo, Foto.class).get(0);
 
-        // Verificar se a foto foi encontrada
         if (foto != null) {
-            // Configurar o tipo de conteúdo da resposta
             response.setContentType("image/jpeg");
-
-            // Escrever os bytes da imagem na resposta
             response.getOutputStream().write(foto.getArquivo());
-
-            // Limpar e fechar o fluxo de saída
             response.getOutputStream().flush();
             response.getOutputStream().close();
         } else {
             System.out.println("Foto não encontrada para o código: " + codigo);
-            // Adicionar um código de status ou mensagem de erro, se necessário
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     } catch (IOException | NumberFormatException | IndexOutOfBoundsException ex) {
         Logger.getLogger(LoadImage.class.getName()).log(Level.SEVERE, null, ex);
-        // Adicionar um código de status ou mensagem de erro, se necessário
         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
     }

@@ -13,8 +13,7 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>TikDog(inho)</title>
-       <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />
-
+       <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />  
     </h:head>
     <h:body>
         
@@ -38,8 +37,8 @@ and open the template in the editor.
                     <ui:repeat value="#{petController.getMeusPets(loginController.usuarioLogado)}" var="pet">
                         <b:panel>
                             <ul class="lista-social">
-                                <img src="LoadImage?codFoto=#{pet.foto.codigo}" 
-                               class="rounded-circle-pet-detail"/>
+                                    <img src="LoadImage?codFoto=#{pet.foto.codigo}" 
+                                     class="rounded-circle-pet-detail"/>
                                 <li><a href="#">Nome Pet: #{pet.nome}</a></li>
                                 <li><a href="#">Nascimento : #{pet.mesAnoNascimento}</a></li>
                                 <li><a href="#">Porte Pet: #{pet.porte}</a></li>

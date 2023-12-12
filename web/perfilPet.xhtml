@@ -14,118 +14,79 @@ and open the template in the editor.
       
     <h:head>
         <title>TikDog(inho)</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />  
     </h:head>
-    <h:body>
-                <ui:include src="menuTutor.xhtml" rendered="true" />
-        <b:form>
-        <b:panelGrid columns="2" colSpans="2,10">
-            <b:panel>
-                <b:commandLink value="editar perfil do pet" ajax='true'
-                               oncomplete="$('.mEditaPet').modal('show')">
-                    
-                </b:commandLink><br/>
-                
-                <b:commandLink value="Compartilhar pet" 
-                               ajax="true" oncomplete="$('.mCompartilhaPet').modal('show')">
-                    
-                </b:commandLink>
-                
-            </b:panel>
-            <b:panel>
-                <b:panel>
-                    <h:outputText value="Perfil de: " style="font-size: 25pt"/>
-                    <h:outputText value="#{petController.selection.nome}" style="font-size: 25pt; font-style: italic"/>
-                    <ul>
-                        <li>Nome do Pet: #{petController.selection.nome}</li>
-                        <li>Mês e ano do nascimento: #{petController.selection.mesAnoNascimento}</li>
-                        <li>Porte do Pet: #{petController.selection.porte}</li>
+<h:body>
+        
+        <ui:include src="menuTutor.xhtml" rendered="true" />
+        
+        <b:form class="formulario">
+        <b:panelGrid columns="3" colSpans="2,8,2">
+            <b:panel id="painelPerfilPet">
+                        <img src="LoadImage?codFoto=#{petController.selection.foto.codigo}" 
+                               class="rounded-circle"/>
+                        <br/>
+                        <h:outputText value="#{petController.selection.nome}" class="nome-do-perfil"/>  
+                        <ul class="lista-social">
+                            <li>Nome: #{petController.selection.nome}</li>
+                            <li>Nascimento: #{petController.selection.mesAnoNascimento}</li>
+                            <li>Porte do Pet: #{petController.selection.porte}</li>                                                                     
                         </ul>
+            </b:panel>
+                          
+                <b:panel>
+                    <h:outputText value="Meus Tutores: " style="font-size: 25pt"/>
+                    <ui:repeat value="#{petController.selection.tutores}" var="tut">
+                        <b:panel>
+                            <ul class="lista-social">
+                                <img src="LoadImage?codFoto=#{tut.foto.codigo}" 
+                                     class="rounded-circle-pet-detail"/>
+                                <li><a href="#">Nome do Tutor: #{tut.nome}</a></li>
+                        </ul>
+                        </b:panel>
+                    </ui:repeat>
                 </b:panel>
 
+            <b:panel>
+                <b:commandLink value="Editar perfil do pet" ajax='true'
+                               oncomplete="$('.mEditPet').modal('show')">
+                </b:commandLink><br/>
+                <b:commandLink value="Compartilhar pet" 
+                               ajax="true" oncomplete="$('.mCompartilhaPet').modal('show')">
+                </b:commandLink>
             </b:panel>
 
         </b:panelGrid>
             
         </b:form>
         
-        <b:form id="formEditUsuario">
-            <b:modal id="modalEditUsuario" class="mEditaPet">
-                <b:panelGrid columns="2">
-                    <h:outputText value="nome:"/>
-                    <b:inputText value="#{petController.selection.nome}"/>
-                    
-                    <h:outputText value="Mês e ano de nascimento:"/>
-                    <b:inputText value="#{petController.selection.mesAnoNascimento}"/>
-                    
-                    <h:outputText value="Porte:"/>
-                    <b:inputText value="#{petController.selection.porte}"/>
-                    
-                </b:panelGrid>
-                
-                <b:commandButton value="editar" action="#{petController.editarPet()}"/> 
-    
-            </b:modal>
-            
-        </b:form>
-        
-        <p:growl id="gro" life="4000" sticky="false"/>
-        
         <b:form id="formEditPet">
             <b:modal id="modalEditPet" class="mEditPet">
                 <b:panelGrid columns="2">
                     <h:outputText value="nome:"/>
                     <b:inputText value="#{petController.selection.nome}"/>
-                    
                     <h:outputText value="Mês e ano do nascimento(mm/aa):"/>
                     <b:inputText value="#{petController.selection.mesAnoNascimento}"/>
-                    
                     <h:outputText value="Porte:"/>
                     <b:inputText value="#{petController.selection.porte}"/>
-                    
                 </b:panelGrid>
-                
                 <b:commandButton value="editar" action="#{petController.editarPet()}"/> 
-    
             </b:modal>
-            
         </b:form>
         
-        <b:form id="formAlteraSenha">
-            
-            <b:modal id="modalAltSenha" class="mAltSenha">
-                
-                <b:panelGrid columns="2">
-                    
-                    <h:outputText value="senha atual"/>
-                    <b:inputSecret value="#{senha}"/>
-                    
-                    <h:outputText value="nova senha"/>
-                    <b:inputSecret value="#{nSenha}"/>
-                    
-                    <h:outputText value="confirma nova senha"/>
-                    <b:inputSecret value="#{confirma}"/>
-                    
-                    <b:commandButton value="alterar senha" 
-                                     action="#{tutorController.alterarSenha(senha, nSenha, confirma)}"/>
-                </b:panelGrid>
-                
-            </b:modal>
-            
-        </b:form>
-        
-        <b:form id="formCompartilhaPet">
+         <b:form id="formCompartilhaPet">
             <b:modal id="modalCompartilhaPet" class="mCompartilhaPet">
                 <b:panelGrid columns="2">
                     <h:outputText value="Email do tutor:"/>
                     <b:inputText value="#{petController.emailTutor}"/>
- 
                 </b:panelGrid>
-                
                 <b:commandButton value="editar" action="#{petController.compartilharPet()}"/> 
-    
             </b:modal>
-            
         </b:form>
         
+        <p:growl id="gro" life="4000" sticky="false"/>
+
+      
+  
     </h:body>
 </html>
