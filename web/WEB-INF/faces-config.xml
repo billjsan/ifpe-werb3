@@ -22,7 +22,7 @@
     </navigation-rule>
     
     <navigation-rule>
-        <from-view-id>cadastroPet.xhtml</from-view-id>
+        <from-view-id>perfilTutor.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>irParaPerfilTutor</from-outcome>
             <to-view-id>perfilTutor.xhtml</to-view-id>

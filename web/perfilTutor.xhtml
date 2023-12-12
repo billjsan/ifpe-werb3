@@ -50,14 +50,15 @@ and open the template in the editor.
                 </b:panel>
 
             <b:panel>
-                <b:commandLink value="editar perfil" ajax='true'
-                               oncomplete="$('.mUsuario').modal('show')">
-                    <f:setPropertyActionListener value="#{loginController.usuarioLogado}"
+                <b:commandLink value="Editar Perfil" ajax='true'
+oncomplete="$('.mUsuario').modal('show')">
+                 <f:setPropertyActionListener value="#{loginController.usuarioLogado}"
                                                  target="#{tutorController.selection}"/>
-                </b:commandLink>
-                <br/>
-                <b:commandLink value="alterar senha" ajax="true" 
-                               oncomplete="$('.mAltSenha').modal('show')"/>
+                </b:commandLink><br/>
+                <b:commandLink value="Alterar Senha" ajax="true" 
+                               oncomplete="$('.mAltSenha').modal('show')"/><br/>
+                <b:commandLink value="Adicionar Pet" ajax="true" 
+                               oncomplete="$('.mAddPet').modal('show')"/>
             </b:panel>
 
         </b:panelGrid>
@@ -66,67 +67,57 @@ and open the template in the editor.
         
         <b:form id="formEditUsuario">
             <b:modal id="modalEditUsuario" class="mUsuario">
-                <b:panelGrid columns="2">
+                <b:panelGrid columns="1">
                     <h:outputText value="nome:"/>
                     <b:inputText value="#{tutorController.selection.nome}"/>
-                    
                     <h:outputText value="email:"/>
                     <b:inputText value="#{tutorController.selection.email}"/>
-                    
                     <h:outputText value="nome de usuário:"/>
                     <b:inputText value="#{tutorController.selection.usuario}"/>
-                    
                 </b:panelGrid>
-                
                 <b:commandButton value="editar" action="#{tutorController.editarPerfil()}"/> 
-    
             </b:modal>
-            
         </b:form>
         
         <p:growl id="gro" life="4000" sticky="false"/>
-        
-        <b:form id="formEditPet">
-            <b:modal id="modalEditPet" class="mEditPet">
-                <b:panelGrid columns="2">
-                    <h:outputText value="nome:"/>
-                    <b:inputText value="#{petController.selection.nome}"/>
-                    
-                    <h:outputText value="Mês e ano do nascimento(mm/aa):"/>
-                    <b:inputText value="#{petController.selection.mesAnoNascimento}"/>
-                    
-                    <h:outputText value="Porte:"/>
-                    <b:inputText value="#{petController.selection.porte}"/>
-                    
-                </b:panelGrid>
-                
-                <b:commandButton value="editar" action="#{petController.editarPet()}"/> 
-    
-            </b:modal>
-            
-        </b:form>
-        
+
         <b:form id="formAlteraSenha">
-            
             <b:modal id="modalAltSenha" class="mAltSenha">
-                
-                <b:panelGrid columns="2">
-                    
+                <b:panelGrid columns="1">
                     <h:outputText value="senha atual"/>
                     <b:inputSecret value="#{senha}"/>
-                    
                     <h:outputText value="nova senha"/>
                     <b:inputSecret value="#{nSenha}"/>
-                    
                     <h:outputText value="confirma nova senha"/>
                     <b:inputSecret value="#{confirma}"/>
-                    
                     <b:commandButton value="alterar senha" 
                                      action="#{tutorController.alterarSenha(senha, nSenha, confirma)}"/>
                 </b:panelGrid>
-                
             </b:modal>
-            
+        </b:form>
+        
+        <b:form id="formAddPet" enctype="multipart/form-data">
+            <b:modal id="modalAddPet" class="mAddPet">
+                <b:panelGrid columns="1">
+                    <b:panel  id="painelImagem">
+                        <h:outputText value="Foto:" class="titulo"/><br/>
+                            <b:panel>
+                                <img src='#{petController.tagImagem}' class="rounded-circle" />
+                                <p:fileUpload fileUploadListener="#{petController.handleFileUpload}"  mode="advanced"
+                                  auto="true" sizeLimit="2000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+                                  update="painelImagem"/>
+                        </b:panel>
+                    </b:panel>
+                    <h:outputText value="Nome"/>
+                    <b:inputText value="#{petController.petCadastro.nome}"/>
+                    <h:outputText value="Mês e ano do nascimento"/>
+                    <b:inputText value="#{petController.petCadastro.mesAnoNascimento}"/>
+                    <h:outputText value="Porte"/>
+                    <b:inputText value="#{petController.petCadastro.porte}"/>
+                    <b:commandButton value="Cadastrar" 
+                                     action="#{petController.inserirPetPorTutor(loginController.usuarioLogado)}"/>
+                </b:panelGrid>
+            </b:modal>
         </b:form>
         
     </h:body>

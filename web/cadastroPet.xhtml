@@ -18,22 +18,17 @@ and open the template in the editor.
 </h:head>
 
 <h:body>
-    <ui:include src="menuTutor.xhtml" />
     <p:growl id="gro" life="4000" sticky="false"/>
     <h:form id="formCadPet">
-        <b:panelGrid columns="2" colSpans="3,9">
-                <b:panel id="painelFotoPet">
-                    <h:outputText value="Foto do Pet" class="titulo"/>
-                    <b:panel id="painelImagem" >
-                        <img src='#{petController.tagImagem}' class="rounded-circle"/>
-                        <p:fileUpload fileUploadListener="#{petController.handleFileUpload}"  mode="advanced" 
+        <p:fieldset legend="Cadastro de Pet">
+                <h:panelGrid columns="3">
+
+                        <h:outputText value="Foto:" class="titulo"/><br/>
+                                <img src='#{petController.tagImagem}' class="rounded-circle" />
+                                <p:fileUpload fileUploadListener="#{petController.handleFileUpload}"  mode="advanced"
                                   auto="true" sizeLimit="2000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
-                                  update="painelImagem" class="fileupload"/>
-                    </b:panel>
-            </b:panel>
-            <b:panel>
-                <h:outputText value="Informações do Pet" class="titulo"/>
-                <b:panel>
+                                 />
+
                     <h:outputText value="Nome*:"/>
                     <h:inputText id="txtNome" value="#{petController.petCadastro.nome}"
                                  required="true" requiredMessage="O Campo nome é obrigatório"/>
@@ -48,27 +43,25 @@ and open the template in the editor.
                     <p:inputText value="#{petController.petCadastro.porte}"
                                 id="pswPorte" required="true" requiredMessage="O campo Porte é obrigatório"/>
                      <p:message for="pswPorte"/>
- 
-                     <p:message for="pswPorte"/>
-                                     <p:commandButton value="cadastrar" oncomplete="PF('widDialCadPet').show()"/> 
-                    <p:commandButton value="cancelar"/>
-                </b:panel>
+                      
+                </h:panelGrid>
                 
-            </b:panel>
-            
-        </b:panelGrid>
-
-        <p:dialog id="dialCadPet"  
-                  modal="true" visible="false" showEffect="fade" hideEffect="fade"
-                  widgetVar="widDialCadPet">
-
-            <h:outputText value="Deseja realmente cadastrar o Pet?"/><br/>
-            <p:commandButton value="sim" action="#{petController.inserirPetPorTutor(loginController.usuarioLogado)}"
-                             oncomplete="PF('widDialCadPet').hide();"
-                             update=":gro :formCadPet :msgs" />
-            <p:commandButton value="não" oncomplete="PF('widDialCadPet').hide()"/>
-
-        </p:dialog>
+                <p:commandButton value="cadastrar" oncomplete="PF('widDialCadPet').show()"/> 
+                <h:commandButton value="cancelar"/>
+                
+            </p:fieldset>
+        
+            <p:dialog id="dialCadPet"  
+                      modal="true" visible="false" showEffect="fade" hideEffect="fade"
+                      widgetVar="widDialCadPet">
+                
+                <h:outputText value="Deseja realmente cadastrar o Pet?"/><br/>
+                <p:commandButton value="sim" action="#{petController.inserirPetPorTutor(loginController.usuarioLogado)}"
+                                 oncomplete="PF('widDialCadPet').hide();"
+                                 update=":gro :formCadPet :msgs" />
+                <p:commandButton value="não" oncomplete="PF('widDialCadPet').hide()"/>
+                
+            </p:dialog>
     </h:form>
     
     <p:messages id="msgs"/>

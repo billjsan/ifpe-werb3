@@ -69,9 +69,9 @@ public class PetController implements Serializable {
                  .addMessage(null, new FacesMessage("Imagem Enviada"));
          //gambiarra
          ((HttpSession)FacesContext.getCurrentInstance()
-                 .getExternalContext().getSession(true)).setAttribute("imagemPet"
+                 .getExternalContext().getSession(true)).setAttribute("imagem"
                          , this.petCadastro.getFoto().getArquivo());
-        this.tagImagem = "http://localhost:8080/TicDoguinho/ServletExibirImagemPet";
+        this.tagImagem = "http://localhost:8080/TicDoguinho/ServletExibirImagem";
     }
     
     public void compartilharPet() {
