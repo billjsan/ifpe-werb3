@@ -7,15 +7,20 @@ package com.ifpe.edu.br.controllers;
 
 
 import com.ifpe.edu.br.dao.Repository;
+import com.ifpe.edu.br.model.Foto;
 import com.ifpe.edu.br.model.Pet;
 import com.ifpe.edu.br.model.Tutor;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+import org.primefaces.event.FileUploadEvent;
 
 /**
  *
@@ -29,6 +34,17 @@ public class PetController implements Serializable {
     private String modalType;
     private Boolean petCompartilhado;
     private String emailTutor;
+    private String tagImagem;
+
+    public String getTagImagem() {
+        return tagImagem;
+    }
+
+    public void setTagImagem(String tagImagem) {
+        this.tagImagem = tagImagem;
+    }
+    
+    
     
     @PostConstruct
     public void init(){
@@ -38,6 +54,24 @@ public class PetController implements Serializable {
 
     public String getEmailTutor() {
         return emailTutor;
+    }
+    
+    public void handleFileUpload(FileUploadEvent event) throws IOException  {
+        byte[] im = new byte[(int) event.getFile().getSize()];   
+        event.getFile().getInputstream().read(im);
+        Foto foto = new Foto();
+        foto.setTamanho((int) event.getFile().getSize());
+        foto.setArquivo(im);
+        Random r = new Random();
+        foto.setNomeDoArquivo("nome:[" + String.valueOf(r.nextLong()) + "]" );
+        this.petCadastro.setFoto(foto);
+         FacesContext.getCurrentInstance()
+                 .addMessage(null, new FacesMessage("Imagem Enviada"));
+         //gambiarra
+         ((HttpSession)FacesContext.getCurrentInstance()
+                 .getExternalContext().getSession(true)).setAttribute("imagemPet"
+                         , this.petCadastro.getFoto().getArquivo());
+        this.tagImagem = "http://localhost:8080/TicDoguinho/ServletExibirImagemPet";
     }
     
     public void compartilharPet() {

@@ -103,7 +103,7 @@ public class TutorController  implements Serializable {
          ((HttpSession)FacesContext.getCurrentInstance()
                  .getExternalContext().getSession(true)).setAttribute("imagem"
                          , this.usuarioCadastro.getFoto().getArquivo());
-        this.tagImagem = "http://localhost:8080/TicDoguinho/ServletExibirImagemDoguinhoGambiarra";
+        this.tagImagem = "http://localhost:8080/TicDoguinho/ServletExibirImagem";
     }
 
     public void setUsuarioCadastro(Tutor usuarioCadastro) {
