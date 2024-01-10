@@ -12,12 +12,11 @@ and open the template in the editor.
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui">
-      
     <h:head>
         <title>TikDog(inho)</title>
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />  
     </h:head>
-<h:body>
+    <h:body>
         <ui:include src="menuTutor.xhtml" rendered="true" />
         <b:form class="formulario">
             <b:panelGrid columns="3" colSpans="2,8,2">
@@ -45,27 +44,16 @@ and open the template in the editor.
 
                     <p:commandButton value="Criar puplicação" ajax="true"
                                               oncomplete="$('.mAddPublicacao').modal('show')"/>
-                    <p:commandButton value="Feed de amigos" ajax="true"
-                                        action="#{petController.irParaFeed()}"/>
                 </b:panel>
 
                 <b:panel>
                     <b:panel>
-                        <h:outputText value="Meus Tutores" class="nome-do-perfil"/> 
-                        <p:dataGrid var="tutor" value="#{petController.selection.tutores}" columns="2">
-                            <p:panel header="#{tutor.nome}">
-                                <img src="LoadImage?codFoto=#{tutor.foto.codigo}" 
-                                         class="rounded-circle"/>
-                                <ul class="lista-social">
-                                    <li>Nome: #{tutor.nome}</li>
-                                    <li>E-mail: #{tutor.email}</li>                                                                     
-                                </ul>
-                            </p:panel>
-                        </p:dataGrid>
+                        <h:outputText value="Outra coisa" class="nome-do-perfil"/> 
+                        
                     </b:panel>
 
                     <b:panel>
-                        <h:outputText value="Minhas publicações" class="nome-do-perfil"/>
+                        <h:outputText value="Publicação de seguidores" class="nome-do-perfil"/>
                         <b:panel>
                             <c:forEach items="#{petController.readPostagens()}" var="postagem">
                                 <h3>
@@ -87,40 +75,12 @@ and open the template in the editor.
                 </b:panel>
 
                 <b:panel>
-                    <b:commandLink value="Editar perfil do pet" ajax='true'
-                                   oncomplete="$('.mEditPet').modal('show')">
+                    <b:commandLink value="Buscar pet" ajax='true'>
                     </b:commandLink><br/>
-                    <b:commandLink value="Compartilhar pet" 
-                                   ajax="true" oncomplete="$('.mCompartilhaPet').modal('show')">
-                    </b:commandLink>
                 </b:panel>
             </b:panelGrid>
         </b:form>
-        
-        <b:form id="formEditPet">
-            <b:modal id="modalEditPet" class="mEditPet">
-                <b:panelGrid columns="2">
-                    <h:outputText value="nome:"/>
-                    <b:inputText value="#{petController.selection.nome}"/>
-                    <h:outputText value="Mês e ano do nascimento(mm/aa):"/>
-                    <b:inputText value="#{petController.selection.mesAnoNascimento}"/>
-                    <h:outputText value="Porte:"/>
-                    <b:inputText value="#{petController.selection.porte}"/>
-                </b:panelGrid>
-                <b:commandButton value="editar" action="#{petController.editarPet()}"/> 
-            </b:modal>
-        </b:form>
-        
-         <b:form id="formCompartilhaPet">
-            <b:modal id="modalCompartilhaPet" class="mCompartilhaPet">
-                <b:panelGrid columns="2">
-                    <h:outputText value="Email do tutor:"/>
-                    <b:inputText value="#{petController.emailTutor}"/>
-                </b:panelGrid>
-                <b:commandButton value="editar" action="#{petController.compartilharPet()}"/> 
-            </b:modal>
-        </b:form>
-        
+      
         <p:growl id="gro" life="4000" sticky="false"/>
         
         <b:form id="formAddPublicacao" enctype="multipart/form-data">

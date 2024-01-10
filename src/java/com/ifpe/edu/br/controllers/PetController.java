@@ -9,9 +9,11 @@ package com.ifpe.edu.br.controllers;
 import com.ifpe.edu.br.dao.Repository;
 import com.ifpe.edu.br.model.Foto;
 import com.ifpe.edu.br.model.Pet;
+import com.ifpe.edu.br.model.Postagem;
 import com.ifpe.edu.br.model.Tutor;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
@@ -96,6 +98,25 @@ public class PetController implements Serializable {
                     "Erro ao compartilhar pet" + e.getMessage(),"Tutor não encontrado" + e.getMessage()));
         }
     }
+    
+    public List<Postagem> readPostagens() {
+        List<Postagem> postagens = null;
+        
+        try {
+            Pet pet = ((PetController)((HttpSession)FacesContext.getCurrentInstance().getExternalContext()
+                 .getSession(true)).getAttribute("petController")).selection;
+        
+            postagens = Repository.getInstance()
+                .read("select p from Postagem p"
+                            + " where p.petRelacionado.codigo = '" + pet.getCodigo()+"' order by p.created desc", Postagem.class);
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            postagens = (List<Postagem>) new ArrayList<Postagem>();
+        }
+        
+        return postagens;
+    }
 
     public void setEmailTutor(String emailTutor) {
         this.emailTutor = emailTutor;
@@ -138,6 +159,10 @@ public class PetController implements Serializable {
     public String irParaPerfilPet(Pet pet) {
         this.selection = pet;
         return "irParaPerfilPet";
+    }
+    
+    public String irParaFeed() {
+        return "ifParaFeed";
     }
     
 //     public void irParaCompartilhamento() {
