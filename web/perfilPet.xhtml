@@ -10,6 +10,7 @@ and open the template in the editor.
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:b="http://bootsfaces.net/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui">
       
     <h:head>
@@ -17,47 +18,64 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />  
     </h:head>
 <h:body>
-        
         <ui:include src="menuTutor.xhtml" rendered="true" />
-        
         <b:form class="formulario">
-        <b:panelGrid columns="3" colSpans="2,8,2">
-            <b:panel id="painelPerfilPet">
-                        <img src="LoadImage?codFoto=#{petController.selection.foto.codigo}" 
-                               class="rounded-circle"/>
-                        <br/>
-                        <h:outputText value="#{petController.selection.nome}" class="nome-do-perfil"/>  
-                        <ul class="lista-social">
-                            <li>Nome: #{petController.selection.nome}</li>
-                            <li>Nascimento: #{petController.selection.mesAnoNascimento}</li>
-                            <li>Porte do Pet: #{petController.selection.porte}</li>                                                                     
-                        </ul>
-            </b:panel>
-                          
-                <b:panel>
-                    <h:outputText value="Meus Tutores: " style="font-size: 25pt"/>
-                    <ui:repeat value="#{petController.selection.tutores}" var="tut">
-                        <b:panel>
+            <b:panelGrid columns="3" colSpans="2,8,2">
+                <b:panel id="painelPerfilPet">
+                    <b:panel>
+                        <c:forEach items="#{petController.selection.tutores}" var="tutor">
+                            <c:if test="#{tutor ne null}">
+                                <col>
+                                    <img style="border-radius: 75%;" src="LoadImage?codFoto=#{tutor.foto.codigo}"
+                                    width="25px" height="25px"/>
+                                </col>
+                            </c:if>
+                        </c:forEach>
+                            <br/>
+                            <img src="LoadImage?codFoto=#{petController.selection.foto.codigo}" 
+                                   class="rounded-circle"/>
+                            <br/>
+                            <h:outputText value="#{petController.selection.nome}" class="nome-do-perfil"/>  
                             <ul class="lista-social">
-                                <img src="LoadImage?codFoto=#{tut.foto.codigo}" 
-                                     class="rounded-circle-pet-detail"/>
-                                <li><a href="#">Nome do Tutor: #{tut.nome}</a></li>
-                        </ul>
-                        </b:panel>
-                    </ui:repeat>
+                                <li>Nome: #{petController.selection.nome}</li>
+                                <li>Nascimento: #{petController.selection.mesAnoNascimento}</li>
+                                <li>Porte do Pet: #{petController.selection.porte}</li>                                                                     
+                            </ul>
+                    </b:panel>
+
+                    <p:commandButton value="Criar puplicação" ajax="true"
+                                              oncomplete="$('.mAddPublicacao').modal('show')"/>
                 </b:panel>
 
-            <b:panel>
-                <b:commandLink value="Editar perfil do pet" ajax='true'
-                               oncomplete="$('.mEditPet').modal('show')">
-                </b:commandLink><br/>
-                <b:commandLink value="Compartilhar pet" 
-                               ajax="true" oncomplete="$('.mCompartilhaPet').modal('show')">
-                </b:commandLink>
-            </b:panel>
+                <b:panel>
+                    <b:panel>
+                        <h:outputText value="Meus Tutores" class="nome-do-perfil"/> 
+                        <p:dataGrid var="tutor" value="#{petController.selection.tutores}" columns="2">
+                            <p:panel header="#{tutor.nome}">
+                                <img src="LoadImage?codFoto=#{tutor.foto.codigo}" 
+                                         class="rounded-circle"/>
+                                <ul class="lista-social">
+                                    <li>Nome: #{tutor.nome}</li>
+                                    <li>E-mail: #{tutor.email}</li>                                                                     
+                                </ul>
+                            </p:panel>
+                        </p:dataGrid>
+                    </b:panel>
 
-        </b:panelGrid>
-            
+                    <b:panel>
+                        <h:outputText value="Minhas publicações" class="nome-do-perfil"/>     
+                    </b:panel>
+                </b:panel>
+
+                <b:panel>
+                    <b:commandLink value="Editar perfil do pet" ajax='true'
+                                   oncomplete="$('.mEditPet').modal('show')">
+                    </b:commandLink><br/>
+                    <b:commandLink value="Compartilhar pet" 
+                                   ajax="true" oncomplete="$('.mCompartilhaPet').modal('show')">
+                    </b:commandLink>
+                </b:panel>
+            </b:panelGrid>
         </b:form>
         
         <b:form id="formEditPet">
@@ -85,8 +103,38 @@ and open the template in the editor.
         </b:form>
         
         <p:growl id="gro" life="4000" sticky="false"/>
-
-      
-  
+        
+        <b:form id="formAddPublicacao" enctype="multipart/form-data">
+            <b:modal id="modalAddPublicacao" class="mAddPublicacao">
+                <b:panelGrid columns="1">
+                    <h:outputText value="Nova publicação:" class="titulo" /><br/>
+                    <b:panel id="painelVideos">
+                        <h:outputText value="Vídeo Pet:" class="titulo" /><br/>
+                        <p:fileUpload fileUploadListener="#{postagemController.handleFileUploadPet}"  mode="advanced" 
+                                    auto="true" allowTypes="/(\.)(mp4|avi|flv)$/" sizeLimit="20000000000"
+                                    update="painelVideoPet"/>
+                        
+                         <b:panel id="painelVideoPet" >
+                            <c:if test="#{postagemController.tagVideoPet != null}" >
+                                <b:video src="#{postagemController.tagVideoPet}" style="width: 500px"/>
+                            </c:if>
+                        </b:panel>
+                        
+                        <h:outputText value="Vídeo Tutor:" class="titulo" /><br/>
+                        <p:fileUpload fileUploadListener="#{postagemController.handleFileUploadTutor}"  mode="advanced" 
+                                    auto="true" allowTypes="/(\.)(mp4|avi|flv)$/" sizeLimit="20000000000"
+                                    update="painelVideoTutor"/>
+                        
+                         <b:panel id="painelVideoTutor" >
+                            <c:if test="#{postagemController.tagVideoTutor != null}" >
+                                <b:video src="#{postagemController.tagVideoTutor}" style="width: 500px"/>
+                            </c:if>
+                        </b:panel>
+                        
+                    </b:panel>
+                    <b:commandButton value="Cadastrar" action="#{postagemController.inserirNovaPostagem()}"/>
+                </b:panelGrid>
+            </b:modal>
+        </b:form>
     </h:body>
 </html>

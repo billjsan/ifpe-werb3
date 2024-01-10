@@ -71,7 +71,7 @@ public class PetController implements Serializable {
          ((HttpSession)FacesContext.getCurrentInstance()
                  .getExternalContext().getSession(true)).setAttribute("imagem"
                          , this.petCadastro.getFoto().getArquivo());
-        this.tagImagem = "http://localhost:8080/TicDoguinho/ServletExibirImagem";
+        this.tagImagem = "http://localhost:8080/TicToguinho/ServletExibirImagem";
     }
     
     public void compartilharPet() {
@@ -156,7 +156,8 @@ public class PetController implements Serializable {
                             + " where u.usuario = '" + tutor.getUsuario()
                             + "' and u.senha = '" + tutor.getSenha()+"'", Tutor.class)
                     .get(0);
-       
+       petCadastro.adicionarTutor(usuarioLogado);
+       Repository.getInstance().update(petCadastro);
        usuarioLogado.addPet(petCadastro);
        Repository.getInstance().update(usuarioLogado);
        FacesContext.getCurrentInstance()

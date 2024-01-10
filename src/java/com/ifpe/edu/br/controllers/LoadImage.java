@@ -25,8 +25,7 @@ public class LoadImage extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest request, 
-            HttpServletResponse response)
-             {
+            HttpServletResponse response) {
        try {
         int codigo = Integer.parseInt(request.getParameter("codFoto"));
         System.out.println("Código da imagem: " + codigo);
@@ -57,5 +56,5 @@ public class LoadImage extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 }

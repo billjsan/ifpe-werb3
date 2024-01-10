@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,9 +28,9 @@ public class Pet implements Serializable {
     private String nome;
     private String mesAnoNascimento;
     private String porte;
-    @ManyToMany(mappedBy = "pets")
+    @ManyToMany(mappedBy = "pets", fetch = FetchType.EAGER)
     private List<Tutor> tutores = new ArrayList<>();
-    
+    private List<Integer> seguindoList = new ArrayList<Integer>();
     @OneToOne
     private Foto foto;
 
@@ -58,6 +59,7 @@ public class Pet implements Serializable {
     }
 
     public String getPorte() {
+        System.out.println("AAAAAAAAAAAAAAAAA--- Tamanho tutores:" + tutores.size() );
         return porte;
     }
 
@@ -87,4 +89,13 @@ public class Pet implements Serializable {
     public List<Tutor> getTutores() {
         return tutores;
     }
+    
+    public List<Integer> getSeguindoList() {
+        return seguindoList;
+    }
+    
+    public void setSeguindoList(List<Integer> seguindoList) {
+        this.seguindoList = seguindoList;
+    }
+    
 }
