@@ -12,36 +12,6 @@
     </h:head>
     <h:body>
         <ui:include src="menuTutor.xhtml" />
-    <b:panelGrid columns="3" colSpans="2,8,2">
-            <b:panel id="painelPerfil">
-                        <img src="LoadImage?codFoto=#{loginController.usuarioLogado.foto.codigo}" 
-                               class="rounded-circle"/>
-                        <br/>
-                        <h:outputText value="#{loginController.usuarioLogado.nome}" class="nome-do-perfil"/>  
-                        <ul class="lista-social">
-                            <li><a href="#">E-mail: #{loginController.usuarioLogado.email}</a></li>
-                            <li><a href="#">Username: #{loginController.usuarioLogado.usuario}</a></li>
-                        </ul>
-                         <p:commandButton value="Criar puplicação" ajax="true"
-                                          oncomplete="$('.mAddPublicacao').modal('show')"/> 
-            </b:panel>
-                          
-            <b:panel>
-                 <h:outputText value="Publicações" class="nome-do-perfil"/>  
-                <b:panel>
-                    
-                </b:panel>
-            </b:panel>
-
-            <b:panel>
-                <b:commandLink value="Editar Perfil"></b:commandLink><br/>
-                <b:commandLink value="Alterar Senha"  /><br/>
-                <b:commandLink value="Adicionar Pet"  />
-            </b:panel>
-
-        </b:panelGrid>
-        
-        <p:growl id="gro" life="4000" sticky="false"/>
-       
+ 
     </h:body> 
 </html>

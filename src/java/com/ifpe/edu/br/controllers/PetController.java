@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -37,6 +38,7 @@ public class PetController implements Serializable {
     private Boolean petCompartilhado;
     private String emailTutor;
     private String tagImagem;
+    private String buscaNome ="";
 
     public String getTagImagem() {
         return tagImagem;
@@ -53,6 +55,32 @@ public class PetController implements Serializable {
         this.petCadastro = new Pet();
         this.modalType = "create";
     }
+
+    public String getBuscaNome() {
+        return buscaNome;
+    }
+
+    public void setBuscaNome(String buscaNome) {
+        this.buscaNome = buscaNome;
+    }
+  
+    public void seguirRemoverPet(Pet pet) {
+        if(this.selection.getSeguindoList() == null) {
+            List<Integer> newList = new ArrayList<Integer>();
+            this.selection.setSeguindoList(newList);        
+        }
+        if(this.selection.getSeguindoList().contains(pet.getCodigo())) {
+            System.out.println("removerPet");
+                int position = this.selection.getSeguindoList().indexOf(pet.getCodigo());
+                this.selection.getSeguindoList().remove(position);
+        } else {
+            System.out.println("seguirPet");
+            this.selection.getSeguindoList().add(pet.getCodigo());
+        } 
+        Repository.getInstance().update(this.selection);    
+    }
+    
+    
 
     public String getEmailTutor() {
         return emailTutor;
@@ -117,6 +145,41 @@ public class PetController implements Serializable {
         
         return postagens;
     }
+    
+    public List<Postagem> readPostagensSeguidores() {
+        List<Postagem> postagens = null;
+        try {
+            Pet pet = ((PetController)((HttpSession)FacesContext.getCurrentInstance().getExternalContext()
+                 .getSession(true)).getAttribute("petController")).selection;
+            String values = pet.getSeguindoList().stream().map(str -> String.format("'%s'", str)).collect(Collectors.joining(","));
+            System.out.println(values);
+            postagens = Repository.getInstance()
+                .read("select p from Postagem p"
+                            + " where p.petRelacionado.codigo in (" + values +") order by p.created desc", Postagem.class);
+            
+        } catch (Exception e) {
+            System.out.println(e);
+            postagens = (List<Postagem>) new ArrayList<Postagem>();
+        }
+        
+        return postagens;
+    }
+    
+    public List<Pet>buscarPetPorNome(String nomeBuscar) {
+        System.out.println("buscarPetPorNome() nome:[" + nomeBuscar + "]");
+        List<Pet> pets = new ArrayList<Pet>();
+        try {
+            pets = Repository.getInstance()
+                .read("select p from Pet p"
+                            + " where p.nome like '" + nomeBuscar + "%'" , Pet.class);
+
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, 
+                new FacesMessage("Nenhum Pet encontrado!"));
+            pets = (List<Pet>) new ArrayList<Pet>();
+        }       
+        return pets;
+    }
 
     public void setEmailTutor(String emailTutor) {
         this.emailTutor = emailTutor;
@@ -174,29 +237,64 @@ public class PetController implements Serializable {
 //        nh.handleNavigation(FacesContext.getCurrentInstance(), null, "compartilharPet?faces-redirect=true");
 //    }
   
+   private void loge(String log) {
+    System.out.println("DEBUG: PetController " + log);
+   }
+   
    public String inserirPetPorTutor(Tutor tutor) {
+       loge("inserirPetPorTutor()");
        try{
        Tutor usuarioLogado = (Tutor) Repository.getInstance()
                     .read("select u from Tutor u"
                             + " where u.usuario = '" + tutor.getUsuario()
                             + "' and u.senha = '" + tutor.getSenha()+"'", Tutor.class)
                     .get(0);
-       petCadastro.adicionarTutor(usuarioLogado);
-       Repository.getInstance().update(petCadastro);
-       usuarioLogado.addPet(petCadastro);
+       
+       if (usuarioLogado != null) {
+           loge("nome do usuario logado:" + usuarioLogado.getNome());
+       } else {
+            loge("usuario logado eh nulo");
+       }
+       
+       if (petCadastro != null) {
+           loge("nome do pet de cadastro:" + petCadastro.getNome());
+           loge("n tutores pet de cadastro:" + petCadastro.getTutores().size());
+       } else {
+            loge("pet cadastro eh nulo");
+       }
+       //petCadastro.adicionarTutor(usuarioLogado);
+       //Repository.getInstance().update(petCadastro);
+       Pet novo = new Pet();
+       novo.setFoto(petCadastro.getFoto());
+       novo.setMesAnoNascimento(petCadastro.getMesAnoNascimento());
+       novo.setNome(petCadastro.getNome());
+       novo.setPorte(petCadastro.getPorte());
+       novo.getTutores().add(usuarioLogado);
+       usuarioLogado.addPet(novo);
        Repository.getInstance().update(usuarioLogado);
+       
+       Pet petrestaurado = (Pet) Repository.getInstance()
+                    .read("select a from Pet a"
+                            + " where a.nome = '" + petCadastro.getNome()
+                            +"'", Pet.class)
+                    .get(0);
+       
+       if (petrestaurado != null) {
+           loge("pet restaurado: n: tutores:" + petrestaurado.getTutores().size());
+       } else {
+            loge("pet restaurado eh nulo");
+       }
        FacesContext.getCurrentInstance()
                     .addMessage(null, 
                             new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Sucesso", "Pet Cadastrado com sucesso"));
- 
-       return "irParaPerfilTutor";
        }
        catch (Exception e) {
             FacesContext.getCurrentInstance()
                     .addMessage(null, 
                             new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Erro ao Logar","Usuário e/ou senha estão incorretos"));
+                    "Erro inserir pet","Erro inserir pet"));
+             loge("Erro inserir pet" + e.getMessage());
         }
        return "irParaPerfilTutor";
    }

@@ -18,7 +18,7 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />  
     </h:head>
 <h:body>
-        <ui:include src="menuTutor.xhtml" rendered="true" />
+        <ui:include src="menuPet.xhtml" rendered="true" />
         <b:form class="formulario">
             <b:panelGrid columns="3" colSpans="2,8,2">
                 <b:panel id="painelPerfilPet">
@@ -58,7 +58,7 @@ and open the template in the editor.
                                          class="rounded-circle"/>
                                 <ul class="lista-social">
                                     <li>Nome: #{tutor.nome}</li>
-                                    <li>E-mail: #{tutor.email}</li>                                                                     
+                                    <li>E-mail: #{tutor.email}</li>                                                                      
                                 </ul>
                             </p:panel>
                         </p:dataGrid>
@@ -66,23 +66,41 @@ and open the template in the editor.
 
                     <b:panel>
                         <h:outputText value="Minhas publicações" class="nome-do-perfil"/>
-                        <b:panel>
                             <c:forEach items="#{petController.readPostagens()}" var="postagem">
-                                <h3>
-                                    <img style="border-radius: 75%;" width="35px" height="35px" 
-                                         src='LoadImage?codFoto=#{postagem.tutorQueInseriu.codigo}'/> #{postagem.tutorQueInseriu.usuario}
-                                </h3>
-                                <h4>Postagem feita em: #{postagem.created}</h4>
-                                <b:panelGrid columns="2">
-                                    <c:if test="#{postagem.codigoVideoPet != null}" >
-                                        <b:video loop="false" autoplay="false" style="width:100%" small-screen="half" src="LoadVideo?codVideo=#{postagem.codigoVideoPet}"/>
-                                    </c:if>
-                                    <c:if test="#{postagem.codigoVideoTutor != null}" >
-                                        <b:video loop="false" autoplay="false" style="width:100%" small-screen="half" src="LoadVideo?codVideo=#{postagem.codigoVideoTutor}"/>
-                                    </c:if>
-                                </b:panelGrid>
+                                <p:panelGrid columns="3" style="margin-top: 20px">
+                                    <p:panelGrid columns="1" style="text-align: center;">
+                                        <img style="border-radius: 75%;" width="35px" height="35px" 
+                                            src='LoadImage?codFoto=#{postagem.tutorQueInseriu.foto.codigo}'/> 
+                                        <br/>
+                                        <img style="border-radius: 75%;" width="55px" height="55px" 
+                                             src='LoadImage?codFoto=#{petController.selection.foto.codigo}'/>
+                                        <br/>
+                                        <h6>
+                                                #{petController.selection.nome}
+                                        </h6>
+                                    </p:panelGrid>
+                                    <p:panelGrid columns="1"> 
+                                        <b:panelGrid columns="1">
+                                            <c:if test="#{postagem.codigoVideoPet != null}" >
+                                                <img style="border-radius: 75%;" width="35px" height="35px" 
+                                                     src='LoadImage?codFoto=#{petController.selection.foto.codigo}'/>
+                                                <b:video loop="false" autoplay="false" style="width:100%" small-screen="half" 
+                                                         src="LoadVideo?codVideo=#{postagem.codigoVideoPet}"/>
+                                            </c:if>
+                                            <c:if test="#{postagem.codigoVideoTutor != null}" >
+                                                <img style="border-radius: 75%;" width="35px" height="35px"
+                                                     src='LoadImage?codFoto=#{postagem.tutorQueInseriu.foto.codigo}'/>
+                                                <b:video loop="false" autoplay="false" style="width:100%" small-screen="half" 
+                                                         src="LoadVideo?codVideo=#{postagem.codigoVideoTutor}"/>
+                                            </c:if>
+                                            <h6>Postagem feita em: #{postagem.created}</h6>
+                                        </b:panelGrid>
+                                    </p:panelGrid>
+                                    <p:panelGrid columns="1">
+                                        
+                                    </p:panelGrid>
+                                </p:panelGrid>
                             </c:forEach>
-                        </b:panel>
                     </b:panel>
                 </b:panel>
 

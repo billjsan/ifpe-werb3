@@ -22,15 +22,20 @@ and open the template in the editor.
         </c:if>
         <b:growl id="growMenu" delay="4000" show-detail="true" show-summary="true"/>
         <b:form id="formMenu">
-            <b:navBar brand="Home" brandHref="indexTutor.xhtml" fluid="true">
-
+            <b:navBar brand="Home do pet" brandHref="indexPet.xhtml" fluid="true">
                 <b:navbarLinks pull="right">
-                    <b:dropMenu value="#{(loginController.usuarioLogado ne null ? loginController.usuarioLogado.usuario:'')}">
-                        <b:navLink value="meu perfil" href="perfilTutor.xhtml"></b:navLink>
+                    <b:dropMenu value="#{(petController.selection ne null ? petController.selection.nome:'')}">
+                        <b:navLink value="perfil de #{petController.selection.nome}" href="perfilPet.xhtml"></b:navLink>
                         <b:navLink></b:navLink>
                         <b:navLink value="logout" 
                                    onclick="location.href='tg_login.xhtml';ajax:loginController.logout()"></b:navLink>
                     </b:dropMenu>
+                </b:navbarLinks>
+                <b:navbarLinks>
+                    <b:navLink value="Perfil do tutor" href="perfilTutor.xhtml"/>
+                </b:navbarLinks>
+                <b:navbarLinks>
+                    <b:navLink value="Buscar pet" href="buscarPet.xhtml"/>
                 </b:navbarLinks>
             </b:navBar>
         </b:form>

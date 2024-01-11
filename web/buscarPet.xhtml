@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <title>TikDog(inho)</title>
+        <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />  
+    </h:head>
+    
+    <h:body>
+        <ui:include src="menuPet.xhtml" rendered="true" />
+        
+        <b:panelGrid columns="3" colSpans="2,8,2">
+            <b:panel id="painelPerfilPet">
+                <b:panel>
+                        <c:forEach items="#{petController.selection.tutores}" var="tutor">
+                            <c:if test="#{tutor ne null}">
+                                <col>
+                                    <img style="border-radius: 75%;" src="LoadImage?codFoto=#{tutor.foto.codigo}"
+                                    width="25px" height="25px"/>
+                                </col>
+                            </c:if>
+                        </c:forEach>
+                            <br/>
+                            <img src="LoadImage?codFoto=#{petController.selection.foto.codigo}" 
+                                   class="rounded-circle"/>
+                            <br/>
+                            <h:outputText value="#{petController.selection.nome}" class="nome-do-perfil"/>  
+                            <ul class="lista-social">
+                                <li>Nome: #{petController.selection.nome}</li>
+                                <li>Nascimento: #{petController.selection.mesAnoNascimento}</li>
+                                <li>Porte do Pet: #{petController.selection.porte}</li>                                                                     
+                            </ul>
+                    </b:panel>
+            </b:panel>
+            <b:panel id="painelMain">
+                <p:growl id="gro" life="4000" sticky="false"/>
+                <b:form id="formBusca">
+                    <h:outputText value="Buscar Pet:" class="titulo" /><br/>
+                    <p:panel>
+                        <h:outputText value="Digite o nome abaixo: "/>
+                        <b:inputText value="#{nome}" size="50"/>
+                         <b:commandButton value="Buscar" ajax="true" 
+                                          oncomplete="$('.findPet').modal('show')" update=":gro formBusca"/>
+                    </p:panel>           
+                    <b:modal id="modalBuscaPet" class="findPet" title="Busca pet:" autoUpdate="false">
+                        <p:panel style="text-align: center">
+                            <c:if test="#{petController.buscarPetPorNome(nome).isEmpty()}">
+                                <p> Nenhum Pet Encontrado!</p>
+                            </c:if>
+                            <h:outputText value="Resultado da busca" class="nome-do-perfil"/>
+                             <c:forEach items="#{petController.buscarPetPorNome(nome)}" var="pet">
+                                 <b:panelGrid columns="1" style="margin-top: 20px;">
+                                     <p:panel>
+                                         <b:commandButton  action="#{petController.irParaPerfilPet(pet)}">
+                                             <img src="LoadImage?codFoto=#{pet.foto.codigo}" 
+                                             style="border-radius: 75%;" width="95px" height="95px"/>
+                                            <br/>
+                                            <h:outputText value="#{pet.nome}" class="nome-do-perfil"/>  
+                                            <ul class="lista-social">
+                                                <li>Nome: #{pet.nome}</li>
+                                                <li>Nascimento: #{pet.mesAnoNascimento}</li>
+                                                <li>Porte do Pet: #{pet.porte}</li>                                                                     
+                                            </ul>
+                                            <c:if test="#{petController.selection.codigo != pet.codigo}" >
+                                                <c:if test="#{petController.selection.getSeguindoList().contains(pet.codigo)}" >
+                                                    <b:commandLink style="margin: 5px; color: blue" value="Seguindo" 
+                                                                   action="#{petController.seguirRemoverPet(pet)}"/>
+                                                </c:if>
+                                                <c:if test="#{not petController.selection.getSeguindoList().contains(pet.codigo)}" >
+                                                    <b:commandLink style="margin: 5px; color: blue" value="Seguir" 
+                                                                   action="#{petController.seguirRemoverPet(pet)}"/>
+                                                </c:if>
+                                            </c:if>
+                                            <c:if test="#{petController.selection.codigo == pet.codigo}" >
+                                                <b:commandLink style="margin: 5px; color: blue" value="Você"/>
+                                            </c:if>
+                                         </b:commandButton>
+                                     </p:panel>
+                                 </b:panelGrid>
+                             </c:forEach>
+                        </p:panel>
+                     </b:modal>
+                </b:form>
+            </b:panel>
+            <b:panel id="painelOptions">
+                <b:form>
+                    <p:commandLink value="Configurações de privacidade" ajax="true" style="color: blue"/>
+                    <br/>
+                    <p:commandLink value="Fale conosco" ajax="true" style="color: blue"/>
+                    <br/>
+                    <p:commandLink value="Ajuda" ajax="true" style="color: blue"/>
+                    <br/>
+                </b:form>
+            </b:panel>
+        </b:panelGrid>
+    </h:body>
+    
+</html>

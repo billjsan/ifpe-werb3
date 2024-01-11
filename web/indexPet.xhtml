@@ -17,7 +17,8 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/style.css" />  
     </h:head>
     <h:body>
-        <ui:include src="menuTutor.xhtml" rendered="true" />
+        <p:growl id="gro" life="4000" sticky="false"/>
+        <ui:include src="menuPet.xhtml" rendered="true" />
         <b:form class="formulario">
             <b:panelGrid columns="3" colSpans="2,8,2">
                 <b:panel id="painelPerfilPet">
@@ -48,41 +49,57 @@ and open the template in the editor.
 
                 <b:panel>
                     <b:panel>
-                        <h:outputText value="Outra coisa" class="nome-do-perfil"/> 
-                        
-                    </b:panel>
-
-                    <b:panel>
                         <h:outputText value="Publicação de seguidores" class="nome-do-perfil"/>
-                        <b:panel>
-                            <c:forEach items="#{petController.readPostagens()}" var="postagem">
-                                <h3>
-                                    <img style="border-radius: 75%;" width="35px" height="35px" 
-                                         src='LoadImage?codFoto=#{postagem.tutorQueInseriu.codigo}'/> #{postagem.tutorQueInseriu.usuario}
-                                </h3>
-                                <h4>Postagem feita em: #{postagem.created}</h4>
-                                <b:panelGrid columns="2">
-                                    <c:if test="#{postagem.codigoVideoPet != null}" >
-                                        <b:video loop="false" autoplay="false" style="width:100%" small-screen="half" src="LoadVideo?codVideo=#{postagem.codigoVideoPet}"/>
-                                    </c:if>
-                                    <c:if test="#{postagem.codigoVideoTutor != null}" >
-                                        <b:video loop="false" autoplay="false" style="width:100%" small-screen="half" src="LoadVideo?codVideo=#{postagem.codigoVideoTutor}"/>
-                                    </c:if>
-                                </b:panelGrid>
+                        <c:forEach items="#{petController.readPostagensSeguidores()}" var="postagem">
+                                <p:panelGrid columns="3" style="margin-top: 20px">
+                                    <p:panelGrid columns="1" style="text-align: center;">
+                                        <img style="border-radius: 75%;" width="35px" height="35px" 
+                                            src='LoadImage?codFoto=#{postagem.tutorQueInseriu.foto.codigo}'/> 
+                                        <br/>
+                                        <img style="border-radius: 75%;" width="55px" height="55px" 
+                                             src='LoadImage?codFoto=#{postagem.petRelacionado.foto.codigo}'/>
+                                        <br/>
+                                        <h6>
+                                                #{postagem.petRelacionado.nome}
+                                        </h6>
+                                    </p:panelGrid>
+                                    <p:panelGrid columns="1"> 
+                                        <b:panelGrid columns="1">
+                                            <c:if test="#{postagem.codigoVideoPet != null}" >
+                                                <img style="border-radius: 75%;" width="35px" height="35px" 
+                                                     src='LoadImage?codFoto=#{postagem.petRelacionado.foto.codigo}'/>
+                                                <b:video loop="false" autoplay="false" style="width:100%" small-screen="half" 
+                                                         src="LoadVideo?codVideo=#{postagem.codigoVideoPet}"/>
+                                            </c:if>
+                                            <c:if test="#{postagem.codigoVideoTutor != null}" >
+                                                <img style="border-radius: 75%;" width="35px" height="35px"
+                                                     src='LoadImage?codFoto=#{postagem.tutorQueInseriu.foto.codigo}'/>
+                                                <b:video loop="false" autoplay="false" style="width:100%" small-screen="half" 
+                                                         src="LoadVideo?codVideo=#{postagem.codigoVideoTutor}"/>
+                                            </c:if>
+                                            <h6>Postagem feita em: #{postagem.created}</h6>
+                                        </b:panelGrid>
+                                    </p:panelGrid>
+                                    <p:panelGrid columns="1">
+                                        
+                                    </p:panelGrid>
+                                </p:panelGrid>
                             </c:forEach>
-                        </b:panel>
                     </b:panel>
                 </b:panel>
-
                 <b:panel>
-                    <b:commandLink value="Buscar pet" ajax='true'>
-                    </b:commandLink><br/>
+                    <b:form>
+                    <p:commandLink value="Configurações de privacidade" ajax="true" style="color: blue"/>
+                    <br/>
+                    <p:commandLink value="Fale conosco" ajax="true" style="color: blue"/>
+                    <br/>
+                    <p:commandLink value="Ajuda" ajax="true" style="color: blue"/>
+                    <br/>
+                </b:form>
                 </b:panel>
             </b:panelGrid>
         </b:form>
       
-        <p:growl id="gro" life="4000" sticky="false"/>
-        
         <b:form id="formAddPublicacao" enctype="multipart/form-data">
             <b:modal id="modalAddPublicacao" class="mAddPublicacao">
                 <b:panelGrid columns="1">
@@ -113,6 +130,6 @@ and open the template in the editor.
                     <b:commandButton value="Cadastrar" action="#{postagemController.inserirNovaPostagem()}"/>
                 </b:panelGrid>
             </b:modal>
-        </b:form>
+        </b:form>     
     </h:body>
 </html>

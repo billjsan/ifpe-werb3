@@ -59,7 +59,6 @@ public class Pet implements Serializable {
     }
 
     public String getPorte() {
-        System.out.println("AAAAAAAAAAAAAAAAA--- Tamanho tutores:" + tutores.size() );
         return porte;
     }
 

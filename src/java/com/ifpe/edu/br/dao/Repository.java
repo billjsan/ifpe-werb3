@@ -45,15 +45,20 @@ public class Repository {
         em.merge(o);
         em.getTransaction().commit();
         em.close();
+        loge("update: sucesso");
     }
+    
+        private void loge(String log) {
+            System.out.println("DEBUG: Repository:" + log);
+        }
 
-    public List read(String query,Class c){
+    public List read(String query, Class c){
         EntityManager em = emf.createEntityManager();
         List returnedList = em.createQuery(query,c).getResultList();
         em.close();
         return returnedList;
     }
-
+    
     public void delete(Object o){
         EntityManager em = emf.createEntityManager();
         Object oDelete = o;
